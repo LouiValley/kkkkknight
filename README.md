@@ -6,6 +6,8 @@ The input to a recommender engine is preference data—who likes what and how mu
 
 # References
 
+https://www.ibm.com/developerworks/java/library/j-mahout/
+
 https://javabeat.net/preference-object-in-mahout/
 
 http://mahout.apache.org/users/recommender/recommender-documentation.html
