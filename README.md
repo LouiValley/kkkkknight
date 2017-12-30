@@ -19,3 +19,5 @@ http://mahout.apache.org/users/recommender/recommender-documentation.html
 http://h2database.com/javadoc/org/h2/jdbcx/JdbcDataSource.html
 
 https://dzone.com/refcardz/distributed-machine-learning
+
+http://blog.trifork.com/2009/12/09/mahout-taste-part-one-introduction/
