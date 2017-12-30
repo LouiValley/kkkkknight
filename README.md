@@ -11,3 +11,5 @@ https://javabeat.net/preference-object-in-mahout/
 http://mahout.apache.org/users/recommender/recommender-documentation.html
 
 http://h2database.com/javadoc/org/h2/jdbcx/JdbcDataSource.html
+
+https://dzone.com/refcardz/distributed-machine-learning
