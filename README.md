@@ -1,3 +1,5 @@
+![Mahout](http://www.philippeadjiman.com/blog/wp-content/uploads/2009/11/Mahout-logo-164x2001.png)
+
 # Introduction
 
 The quality of recommendations is largely determined by the quantity and quality of data. Garbage in, garbage out was never truer than here. Likewise, recommender algorithms are data intensive, and runtime performance is greatly affected by quantity and representation of data. This article explores classes in Mahout for representing and accessing recommender-related data.
