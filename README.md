@@ -6,6 +6,8 @@ The quality of recommendations is largely determined by the quantity and quality
 
 The input to a recommender engine is preference data—who likes what and how much. So, the input to Mahout recommenders is simply a set consisting of user ID, item ID, and preference value tuples—a large set, of course. Sometimes, even preference values are omitted.
 
+![Java-Mahout](http://blog.trifork.com/wp-content/uploads/2009/12/taste-architecture.png)
+
 # References
 
 https://www.ibm.com/developerworks/java/library/j-mahout/
