@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SongController {
 
     @Autowired
-    private SongDao songDao;
-
-    @Autowired
     private SongService songService;
 
     /**
@@ -33,7 +30,7 @@ public class SongController {
     /**
      * 根据用户听歌记录、歌曲信息和用户个人信息，从而可以自动生成不同主题的歌单
      */
-    @RequestMapping(value = "history/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "themes/{id}", method = RequestMethod.GET)
     @ApiOperation(httpMethod = "GET", value = "Response a string describing if the user info id is successfully get or not.")
     public JsonObject getSongsWithDiffThemes(@PathVariable("id") String uid) {
         return new JsonObject(this.songService.getSongsWithDiffThemes(uid));
@@ -42,7 +39,7 @@ public class SongController {
     /**
      * 根据用户听歌记录、歌曲信息和用户个人信息，也可以向用户推荐其感兴趣的歌曲
      */
-    @RequestMapping(value = "history/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "recommend/{id}", method = RequestMethod.GET)
     @ApiOperation(httpMethod = "GET", value = "Response a string describing if the user info id is successfully get or not.")
     public JsonObject getSongsWithRecommendation(@PathVariable("id") String uid) {
         return new JsonObject(this.songService.getSongsWithRecommendation(uid));

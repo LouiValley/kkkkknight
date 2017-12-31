@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface SongService {
     List<Song> getSongsWithLikehood(String uid);
     List<Song> getSongsWithDiffThemes(String uid);

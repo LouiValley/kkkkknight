@@ -7,6 +7,7 @@ import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.model.JDBCDataModel;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.h2.jdbcx.JdbcDataSource;
+import org.springframework.stereotype.Service;
 
 import javax.activation.DataSource;
 import javax.naming.Context;
@@ -16,6 +17,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+@Service
 public class RecommendServiceImpl implements RecommendService {
     @Override
     public List<RecommendedItem> userCF(JDBCDataModel model) throws TasteException, SQLException, NamingException {

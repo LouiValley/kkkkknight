@@ -41,7 +41,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(String msno, int city, int bd, String gender, int registered_via, Date registration_init_time, int expiration_date) {
+    public Member(String msno, int city, int bd, String gender, int registered_via, String registration_init_time, String expiration_date) {
 
         this.msno = msno;
         this.city = city;
@@ -53,7 +53,7 @@ public class Member {
     }
 
     @Column(name = "registration_init_time") //must same excel header (first row)0,1,2....
-    private Date registration_init_time;
+    private String registration_init_time;
 
     public String getMsno() {
         return msno;
@@ -95,23 +95,23 @@ public class Member {
         this.registered_via = registered_via;
     }
 
-    public Date getRegistration_init_time() {
+    public String getRegistration_init_time() {
         return registration_init_time;
     }
 
-    public void setRegistration_init_time(Date registration_init_time) {
+    public void setRegistration_init_time(String registration_init_time) {
         this.registration_init_time = registration_init_time;
     }
 
-    public int getExpiration_date() {
+    public String getExpiration_date() {
         return expiration_date;
     }
 
-    public void setExpiration_date(int expiration_date) {
+    public void setExpiration_date(String expiration_date) {
         this.expiration_date = expiration_date;
     }
 
     @Column(name = "expiration_date") //must same excel header (first row)0,1,2....
-    private int expiration_date;
+    private String expiration_date;
 
 }

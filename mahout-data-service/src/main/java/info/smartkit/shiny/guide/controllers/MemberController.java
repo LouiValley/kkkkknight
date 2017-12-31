@@ -56,7 +56,7 @@ public class MemberController {
     /**
      * 根据用户听歌记录、歌曲信息和用户个人信息，从而可以向用户推荐兴趣一致的其他用户
      */
-    @RequestMapping(value = "likehood/recommendation/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "likehood/recommend/{id}",method = RequestMethod.GET)
     @ApiOperation(httpMethod = "GET", value = "Response a list describing all of user info that is successfully get or not.")
     public List<Object> getUsersWithLikehoodAndRecommendation(@PathVariable("id") String uid) {
         return memberService.getUsersWithLikehoodAndRecommendation(uid);

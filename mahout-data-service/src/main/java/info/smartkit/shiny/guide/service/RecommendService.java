@@ -9,7 +9,6 @@ import javax.naming.NamingException;
 import java.sql.SQLException;
 import java.util.List;
 
-@Service
 public interface RecommendService {
     List<RecommendedItem> userCF(JDBCDataModel model) throws TasteException, SQLException, NamingException;
     List<RecommendedItem> itemCF(JDBCDataModel model) throws TasteException, SQLException, NamingException;
