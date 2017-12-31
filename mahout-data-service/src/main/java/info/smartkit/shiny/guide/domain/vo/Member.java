@@ -13,16 +13,16 @@ public class Member {
     private String msno;
 
     @Column(name = "city") //must same excel header (first row)0,1,2....
-    private int city;
+    private String city;
 
     @Column(name = "bd") //must same excel header (first row)0,1,2....
-    private int bd;
+    private String bd;
 
     @Column(name = "gender") //must same excel header (first row)0,1,2....
     private String gender;
 
     @Column(name = "registered_via") //must same excel header (first row)0,1,2....
-    private int registered_via;
+    private String registered_via;
 
     @Override
     public String toString() {
@@ -41,7 +41,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(String msno, int city, int bd, String gender, int registered_via, String registration_init_time, String expiration_date) {
+    public Member(String msno, String city, String bd, String gender, String registered_via, String registration_init_time, String expiration_date) {
 
         this.msno = msno;
         this.city = city;
@@ -63,19 +63,19 @@ public class Member {
         this.msno = msno;
     }
 
-    public int getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(int city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public int getBd() {
+    public String getBd() {
         return bd;
     }
 
-    public void setBd(int bd) {
+    public void setBd(String bd) {
         this.bd = bd;
     }
 
@@ -87,11 +87,11 @@ public class Member {
         this.gender = gender;
     }
 
-    public int getRegistered_via() {
+    public String getRegistered_via() {
         return registered_via;
     }
 
-    public void setRegistered_via(int registered_via) {
+    public void setRegistered_via(String registered_via) {
         this.registered_via = registered_via;
     }
 

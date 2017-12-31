@@ -2,6 +2,9 @@ package info.smartkit.shiny.guide;
 
 import com.blogspot.na5cent.exom.ExOM;
 import info.smartkit.shiny.guide.domain.vo.Member;
+import info.smartkit.shiny.guide.domain.vo.Song;
+import info.smartkit.shiny.guide.domain.vo.SongExtraInfo;
+import info.smartkit.shiny.guide.domain.vo.Train;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
@@ -33,32 +36,35 @@ public class DataServiceApplication {
 		}
 
 		//initial CSV readers.
-		File excelFile_song = new File(mainClass.getResource("KKBOX/songs.xlsx").getPath());
-		List<Member> excelFile_songs = ExOM.mapFromExcel(excelFile_song)
-				.toObjectOf(Member.class)
+		URL url_songs = mainClass.getResource("/KKBOX/songs.xlsx");
+		File excelFile_song = new File(url_songs.getPath());
+		List<Song> excelFile_songs = ExOM.mapFromExcel(excelFile_song)
+				.toObjectOf(Song.class)
 				.map();
 
-		for (Member item : excelFile_songs) {
+		for (Song item : excelFile_songs) {
 			LOG.info("Song --> {}"+item.toString());
 		}
 
 		//initial CSV readers.
-		File excelFile_song_extra_info = new File(mainClass.getResource("KKBOX/song_extra_info.xlsx").getPath());
-		List<Member> excelFile_song_extra_infos = ExOM.mapFromExcel(excelFile_song_extra_info)
-				.toObjectOf(Member.class)
+		URL url_song_extra_info = mainClass.getResource("/KKBOX/song_extra_info.xlsx");
+		File excelFile_song_extra_info = new File(url_song_extra_info.getPath());
+		List<SongExtraInfo> excelFile_song_extra_infos = ExOM.mapFromExcel(excelFile_song_extra_info)
+				.toObjectOf(SongExtraInfo.class)
 				.map();
 
-		for (Member item : excelFile_song_extra_infos) {
+		for (SongExtraInfo item : excelFile_song_extra_infos) {
 			LOG.info("SongExtraInfo --> {}"+item.toString());
 		}
 
 		//initial CSV readers.
-		File excelFile_train = new File(mainClass.getResource("KKBOX/train.xlsx").getPath());
-		List<Member> excelFile_trains = ExOM.mapFromExcel(excelFile_train)
-				.toObjectOf(Member.class)
+		URL url_train = mainClass.getResource("/KKBOX/train.xlsx");
+		File excelFile_train = new File(url_train.getPath());
+		List<Train> excelFile_trains = ExOM.mapFromExcel(excelFile_train)
+				.toObjectOf(Train.class)
 				.map();
 
-		for (Member item : excelFile_trains) {
+		for (Train item : excelFile_trains) {
 			LOG.info("Train --> {}"+item.toString());
 		}
 
