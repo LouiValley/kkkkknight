@@ -2,6 +2,8 @@ package info.smartkit.shiny.guide.controllers;
 
 import info.smartkit.shiny.guide.domain.dao.MemberDao;
 import info.smartkit.shiny.guide.domain.dto.JsonObject;
+import info.smartkit.shiny.guide.domain.dto.SongFullInfo;
+import info.smartkit.shiny.guide.domain.vo.Member;
 import info.smartkit.shiny.guide.domain.vo.Song;
 import info.smartkit.shiny.guide.service.MemberService;
 import io.swagger.annotations.ApiOperation;
@@ -22,34 +24,34 @@ public class MemberController {
     private MemberService memberService;
 
     /**
-     * 用户听歌记录
+     * 获取用户听歌记录
      */
     @RequestMapping(value = "history/{id}", method = RequestMethod.GET)
-    @ApiOperation(httpMethod = "GET", value = "Response a string describing if the user info id is successfully get or not.")
-    public List<Object> getHistory(@PathVariable("id") String uid) {
-        return this.memberService.getHistory(uid);
+    @ApiOperation(httpMethod = "GET", value = "获取用户听歌记录.")
+    public List<Song> getSongHistory(@PathVariable("id") String uid) {
+        return this.memberService.getSongHistory(uid);
     }
     /**
-     * 用户歌曲信息
+     * 获取用户歌曲信息
      */
     @RequestMapping(value = "song/{id}",method = RequestMethod.GET)
-    @ApiOperation(httpMethod = "GET", value = "Response a list describing all of user info by consult ID that is successfully get or not.")
-    public JsonObject getSongInfo(@PathVariable("id") String uid) {
-        return new JsonObject(this.memberService.getSongInfo(uid));
+    @ApiOperation(httpMethod = "GET", value = "获取用户歌曲信息.")
+    public List<SongFullInfo> getSongInfo(@PathVariable("id") String uid) {
+        return this.memberService.getSongFullInfo(uid);
     }
     /**
-     * 用户个人信息
+     * 获取用户个人信息
      */
     @RequestMapping(value = "user/{id}",method = RequestMethod.GET)
-    @ApiOperation(httpMethod = "GET", value = "Response a list describing all of user info that is successfully get or not.")
-    public JsonObject getUserInfo(@PathVariable("id") String uid) {
-        return new JsonObject(memberService.getUserInfo(uid));
+    @ApiOperation(httpMethod = "GET", value = "获取用户个人信息.")
+    public Member getUserInfo(@PathVariable("id") String uid) {
+        return memberService.getUserInfo(uid);
     }
     /**
      * 根据用户听歌记录、歌曲信息和用户个人信息，挖掘哪些用户是相似的
      */
     @RequestMapping(value = "likehood/{id}",method = RequestMethod.GET)
-    @ApiOperation(httpMethod = "GET", value = "Response a list describing all of user info that is successfully get or not.")
+    @ApiOperation(httpMethod = "GET", value = "根据用户听歌记录、歌曲信息和用户个人信息，挖掘哪些用户是相似的.")
     public List<Object> getUsersWithLikehood(@PathVariable("id") String uid) {
         return memberService.getUsersWithLikehood(uid);
     }
@@ -57,7 +59,7 @@ public class MemberController {
      * 根据用户听歌记录、歌曲信息和用户个人信息，从而可以向用户推荐兴趣一致的其他用户
      */
     @RequestMapping(value = "likehood/recommend/{id}",method = RequestMethod.GET)
-    @ApiOperation(httpMethod = "GET", value = "Response a list describing all of user info that is successfully get or not.")
+    @ApiOperation(httpMethod = "GET", value = "根据用户听歌记录、歌曲信息和用户个人信息，从而可以向用户推荐兴趣一致的其他用户.")
     public List<Object> getUsersWithLikehoodAndRecommendation(@PathVariable("id") String uid) {
         return memberService.getUsersWithLikehoodAndRecommendation(uid);
     }
