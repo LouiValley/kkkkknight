@@ -45,13 +45,13 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "TD.SMARTKIT.INFO REST API",
+                "ML.SMARTKIT.INFO REST API",
                 "SMARTKIT.INFO description of API.",
                 "0.0.1",
                 "Terms of service",
-                "smartkit@msn.com",
-                "License of API",
-                "API license URL");
+                "z@smartkit.info",
+                "SMARTKIT.INFO License of API",
+                "ML.SMARTKIT.INFO API license URL");
         return apiInfo;
     }
 

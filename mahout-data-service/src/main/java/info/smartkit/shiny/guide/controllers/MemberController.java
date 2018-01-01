@@ -1,16 +1,16 @@
 package info.smartkit.shiny.guide.controllers;
 
-import info.smartkit.shiny.guide.domain.dao.MemberDao;
-import info.smartkit.shiny.guide.domain.dto.JsonObject;
 import info.smartkit.shiny.guide.domain.dto.SongFullInfo;
 import info.smartkit.shiny.guide.domain.vo.Member;
 import info.smartkit.shiny.guide.domain.vo.Song;
 import info.smartkit.shiny.guide.service.MemberService;
 import io.swagger.annotations.ApiOperation;
-import org.apache.avro.data.Json;
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -52,7 +52,7 @@ public class MemberController {
      */
     @RequestMapping(value = "likehood/{id}",method = RequestMethod.GET)
     @ApiOperation(httpMethod = "GET", value = "根据用户听歌记录、歌曲信息和用户个人信息，挖掘哪些用户是相似的.")
-    public List<Object> getUsersWithLikehood(@PathVariable("id") String uid) {
+    public List<RecommendedItem> getUsersWithLikehood(@PathVariable("id") String uid) throws IOException, TasteException {
         return memberService.getUsersWithLikehood(uid);
     }
     /**
@@ -60,7 +60,7 @@ public class MemberController {
      */
     @RequestMapping(value = "likehood/recommend/{id}",method = RequestMethod.GET)
     @ApiOperation(httpMethod = "GET", value = "根据用户听歌记录、歌曲信息和用户个人信息，从而可以向用户推荐兴趣一致的其他用户.")
-    public List<Object> getUsersWithLikehoodAndRecommendation(@PathVariable("id") String uid) {
+    public List<RecommendedItem> getUsersWithLikehoodAndRecommendation(@PathVariable("id") String uid) throws IOException, TasteException {
         return memberService.getUsersWithLikehoodAndRecommendation(uid);
     }
 }

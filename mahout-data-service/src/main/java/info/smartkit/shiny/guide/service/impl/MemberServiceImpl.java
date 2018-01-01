@@ -4,15 +4,23 @@ import info.smartkit.shiny.guide.domain.dao.MemberDao;
 import info.smartkit.shiny.guide.domain.dao.SongDao;
 import info.smartkit.shiny.guide.domain.dao.SongExtraInfoDao;
 import info.smartkit.shiny.guide.domain.dao.TrainDao;
+import info.smartkit.shiny.guide.domain.dto.KKBoxPerfObject;
 import info.smartkit.shiny.guide.domain.dto.SongFullInfo;
 import info.smartkit.shiny.guide.domain.vo.Member;
 import info.smartkit.shiny.guide.domain.vo.Song;
 import info.smartkit.shiny.guide.service.MemberService;
+import info.smartkit.shiny.guide.service.RecommendService;
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +42,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private RecommendService recommendService;
 
     @Override
     public List<Song> getSongHistory(String uid) {
@@ -92,12 +103,45 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Object> getUsersWithLikehood(String uid) {
-        return null;
+    public List<RecommendedItem> getUsersWithLikehood(String uid) throws IOException, TasteException {
+        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = getKkBoxPerfObjectsFromSQL(uid);
+        return recommendService.userCF(this.getDataModel(kkBoxPerfObjectArrayList));
+    }
+
+    private List<KKBoxPerfObject> getKkBoxPerfObjectsFromSQL(String uid) {
+        //
+        String SQL_member_song_target = "SELECT msno,song_id,target FROM train WHERE msno='"+uid+"'";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(SQL_member_song_target);
+        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = new ArrayList<KKBoxPerfObject>();
+        //
+        while (rows.next()) {
+            //
+            int colCount = rows.getMetaData().getColumnCount();
+            KKBoxPerfObject kkBoxPerfObject = new KKBoxPerfObject();
+            for (int i = 1; i <= colCount; i++) {
+                kkBoxPerfObject.setMsno(rows.getString("msno"));
+                kkBoxPerfObject.setSong_id(rows.getString("song_id"));
+                kkBoxPerfObject.setTarget(rows.getInt("target"));
+            }
+            kkBoxPerfObjectArrayList.add(kkBoxPerfObject);
+        }
+        return kkBoxPerfObjectArrayList;
     }
 
     @Override
-    public List<Object> getUsersWithLikehoodAndRecommendation(String uid) {
-        return null;
+    public List<RecommendedItem> getUsersWithLikehoodAndRecommendation(String uid) throws IOException, TasteException {
+
+        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = getKkBoxPerfObjectsFromSQL(uid);
+        //
+        return recommendService.userCF(this.getDataModel(kkBoxPerfObjectArrayList));
     }
+
+    private DataModel getDataModel(List<KKBoxPerfObject> kkBoxPerfObjectList) throws IOException {
+
+        File dataFile = KKBoxUtils.getCurrentMahoutUserBehaviorFile(kkBoxPerfObjectList);
+        //
+        DataModel dataModel  = new FileDataModel(dataFile);
+        return dataModel;
+    }
+
 }
