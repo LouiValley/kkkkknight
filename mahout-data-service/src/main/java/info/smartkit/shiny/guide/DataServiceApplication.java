@@ -5,10 +5,14 @@ import info.smartkit.shiny.guide.domain.dao.MemberDao;
 import info.smartkit.shiny.guide.domain.dao.SongDao;
 import info.smartkit.shiny.guide.domain.dao.SongExtraInfoDao;
 import info.smartkit.shiny.guide.domain.dao.TrainDao;
+import info.smartkit.shiny.guide.domain.dto.KKBoxPerfObject;
 import info.smartkit.shiny.guide.domain.vo.Member;
 import info.smartkit.shiny.guide.domain.vo.Song;
 import info.smartkit.shiny.guide.domain.vo.SongExtraInfo;
 import info.smartkit.shiny.guide.domain.vo.Train;
+import info.smartkit.shiny.guide.service.RecommendService;
+import info.smartkit.shiny.guide.service.impl.KKBoxUtils;
+import info.smartkit.shiny.guide.utils.MahoutUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +44,8 @@ public class DataServiceApplication {
     CommandLineRunner init(MemberDao memberDao,
                            SongDao songDao,
                            SongExtraInfoDao songExtraInfoDao,
-                           TrainDao trainDao
+                           TrainDao trainDao,
+                           RecommendService recommendService
                            ) {
         return (evt) -> Arrays.asList(
                 DATASET_ENV.split(","))
@@ -65,7 +71,7 @@ public class DataServiceApplication {
 							}
                             //2.Save to H2 and verify
 							memberDao.save(excelFile_members);
-							LOG.info(memberDao.findAll().toString());
+//							LOG.info(memberDao.findAll().toString());
 
                             //////////////Song////////////////////////////
                             //1.initial CSV reader and mapper.
@@ -85,7 +91,7 @@ public class DataServiceApplication {
                             }
                             //2.Save to H2 and verify
                             songDao.save(excelFile_songs);
-                            LOG.info(songDao.findAll().toString());
+//                            LOG.info(songDao.findAll().toString());
 
                             //////////////Song////////////////////////////
                             //1.initial CSV reader and mapper.
@@ -105,7 +111,7 @@ public class DataServiceApplication {
                             }
                             //2.Save to H2 and verify
                             songExtraInfoDao.save(excelFile_song_extra_infos);
-                            LOG.info(songExtraInfoDao.findAll().toString());
+//                            LOG.info(songExtraInfoDao.findAll().toString());
 
                             //////////////Train////////////////////////////
                             //1.initial CSV reader and mapper.
@@ -125,8 +131,15 @@ public class DataServiceApplication {
                             }
                             //2.Save to H2 and verify
                             trainDao.save(excelFile_trains);
-                            LOG.info(trainDao.findAll().toString());
-
+//                            LOG.info(trainDao.findAll().toString());
+                            //3.All To Mahout DataModel(to be expand)
+                            List<KKBoxPerfObject> kkBoxPerfObjectList = recommendService.getKkBoxPerfObjectsFromSQL("1","1");
+                            try {
+                                File allMahoutDataFile = KKBoxUtils.getCurrentMahoutUserBehaviorFile(kkBoxPerfObjectList);
+                                LOG.info("allMahoutDataFile:"+allMahoutDataFile);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         });
     }
 }

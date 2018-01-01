@@ -28,7 +28,7 @@ public class MahoutUtils {
         UserNeighborhood userNeighborhood = RecommendFactory.userNeighborhood(RecommendFactory.NEIGHBORHOOD.NEAREST, userSimilarity, dataModel, NEIGHBORHOOD_NUM);
         RecommenderBuilder recommenderBuilder = RecommendFactory.userRecommender(userSimilarity, userNeighborhood, true);
 
-        RecommendFactory.evaluate(RecommendFactory.EVALUATOR.AVERAGE_ABSOLUTE_DIFFERENCE, recommenderBuilder, null, dataModel, 0.7);
+        RecommendFactory.evaluate(RecommendFactory.EVALUATOR.AVERAGE_ABSOLUTE_DIFFERENCE, recommenderBuilder, null, dataModel, 0.1);
         RecommendFactory.statsEvaluator(recommenderBuilder, null, dataModel, 2);
 
         LongPrimitiveIterator iter = dataModel.getUserIDs();
@@ -46,7 +46,7 @@ public class MahoutUtils {
         ItemSimilarity itemSimilarity = RecommendFactory.itemSimilarity(RecommendFactory.SIMILARITY.EUCLIDEAN, dataModel);
         RecommenderBuilder recommenderBuilder = RecommendFactory.itemRecommender(itemSimilarity, true);
 
-        RecommendFactory.evaluate(RecommendFactory.EVALUATOR.AVERAGE_ABSOLUTE_DIFFERENCE, recommenderBuilder, null, dataModel, 0.7);
+        RecommendFactory.evaluate(RecommendFactory.EVALUATOR.AVERAGE_ABSOLUTE_DIFFERENCE, recommenderBuilder, null, dataModel, 0.1);
         RecommendFactory.statsEvaluator(recommenderBuilder, null, dataModel, 2);
 
         LongPrimitiveIterator iter = dataModel.getUserIDs();

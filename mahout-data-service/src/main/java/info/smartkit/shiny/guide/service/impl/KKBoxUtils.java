@@ -1,5 +1,6 @@
 package info.smartkit.shiny.guide.service.impl;
 
+import com.google.common.hash.HashCode;
 import com.mahout.rnd.customFileModel.indexGenerator;
 import info.smartkit.shiny.guide.domain.dto.KKBoxPereference;
 import info.smartkit.shiny.guide.domain.dto.KKBoxPerfObject;
@@ -25,6 +26,7 @@ import java.util.Optional;
 public class KKBoxUtils {
 
     public static final String CSV_BEAN_FILE = "target/writeWithCsvBeanWriter.csv";
+    public static final String CSV_BEAN_FILE_DEFAULT = "target/writeWithCsvBeanWriterDefault.csv";
     private static final long serialVersionUID = 1L;
     indexGenerator indexgenerator = new indexGenerator();
 
@@ -92,8 +94,8 @@ public class KKBoxUtils {
     private static CellProcessor[] getCellProcessors() {
 
         final CellProcessor[] processors = new CellProcessor[] {
-                new UniqueHashCode(), // userId (must be unique)
-                new UniqueHashCode(), // itemId (must be unique)
+                new NotNull(), // userId (must be unique)
+                new NotNull(), // itemId (must be unique)
                 new NotNull(), // rating
         };
 

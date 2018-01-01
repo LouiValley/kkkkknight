@@ -5,6 +5,7 @@ import info.smartkit.shiny.guide.domain.dto.KKBoxPerfObject;
 import info.smartkit.shiny.guide.domain.vo.Song;
 import info.smartkit.shiny.guide.service.RecommendService;
 import info.smartkit.shiny.guide.service.SongService;
+import info.smartkit.shiny.guide.utils.MahoutUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.TasteException;
@@ -46,26 +47,28 @@ public class SongServiceImpl implements SongService{
 //        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = recommendService.getKkBoxPerfObjectsFromSQL("song_id",uid);
 //        return recommendService.itemCF(recommendService.getDataModel(kkBoxPerfObjectArrayList));
 
-        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = recommendService.getKkBoxPerfObjectsFromSQL("msno",uid);
+//        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = recommendService.getKkBoxPerfObjectsFromSQL("msno",uid);
 
-        File file = new File(KKBoxUtils.CSV_BEAN_FILE);
-        DataModel dataModel  = new PaxcomFileDataModel(file);
+        File file = new File(KKBoxUtils.CSV_BEAN_FILE_DEFAULT);
+//        DataModel dataModel  = new PaxcomFileDataModel(file);
+        DataModel dataModel  = new FileDataModel(file);
 
         // Construct the list of pre-computed correlations
-        Collection<GenericItemSimilarity.ItemItemSimilarity> correlations =
-                new ArrayList<GenericItemSimilarity.ItemItemSimilarity>();
-
-        ItemSimilarity itemSimilarity =
-                new GenericItemSimilarity(correlations);
-
-        Recommender recommender =
-                new GenericItemBasedRecommender(dataModel, itemSimilarity);
-        Recommender cachingRecommender = new CachingRecommender(recommender);
-        List<RecommendedItem> recommendations =
-                cachingRecommender.recommend(Long.parseLong(uid), 10);
-        for (RecommendedItem recommendation : recommendations) {
-            LOG.info(recommendation);
-        }
+//        Collection<GenericItemSimilarity.ItemItemSimilarity> correlations =
+//                new ArrayList<GenericItemSimilarity.ItemItemSimilarity>();
+//
+//        ItemSimilarity itemSimilarity =
+//                new GenericItemSimilarity(correlations);
+//
+//        Recommender recommender =
+//                new GenericItemBasedRecommender(dataModel, itemSimilarity);
+//        Recommender cachingRecommender = new CachingRecommender(recommender);
+//        List<RecommendedItem> recommendations =
+//                cachingRecommender.recommend(Long.parseLong(uid), 10);
+//        for (RecommendedItem recommendation : recommendations) {
+//            LOG.info(recommendation);
+//        }
+        List<RecommendedItem> recommendations = MahoutUtils.itemCF(dataModel);
         return recommendations;
     }
 

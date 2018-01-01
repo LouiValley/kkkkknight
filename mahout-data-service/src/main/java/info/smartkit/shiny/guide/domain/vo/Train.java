@@ -40,7 +40,7 @@ public class Train {
     @Column(name = "source_type") //must same excel header (first row)0,1,2....
     private String source_type;
 
-    public Train(String msno, String song_id, String source_system_tab, String source_screen_name, String source_type, int target) {
+    public Train(String msno, String song_id, String source_system_tab, String source_screen_name, String source_type, String target) {
         this.msno = msno;
         this.song_id = song_id;
         this.source_system_tab = source_system_tab;
@@ -90,14 +90,14 @@ public class Train {
         this.source_type = source_type;
     }
 
-    public int getTarget() {
+    public String getTarget() {
         return target;
     }
 
-    public void setTarget(int target) {
+    public void setTarget(String target) {
         this.target = target;
     }
 
     @Column(name = "target") //must same excel header (first row)0,1,2....
-    private int target;
+    private String target;
 }
