@@ -21,3 +21,5 @@ http://h2database.com/javadoc/org/h2/jdbcx/JdbcDataSource.html
 https://dzone.com/refcardz/distributed-machine-learning
 
 http://blog.trifork.com/2009/12/09/mahout-taste-part-one-introduction/
+
+https://blogdotrichanchordotcom.wordpress.com/2015/11/12/user-based-collaborative-filtering-with-apache-mahout/
