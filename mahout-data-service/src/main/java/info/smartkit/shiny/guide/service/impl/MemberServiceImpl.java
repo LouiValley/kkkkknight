@@ -104,44 +104,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<RecommendedItem> getUsersWithLikehood(String uid) throws IOException, TasteException {
-        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = getKkBoxPerfObjectsFromSQL(uid);
-        return recommendService.userCF(this.getDataModel(kkBoxPerfObjectArrayList));
+        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = recommendService.getKkBoxPerfObjectsFromSQL("msno",uid);
+        return recommendService.userCF(recommendService.getDataModel(kkBoxPerfObjectArrayList));
     }
 
-    private List<KKBoxPerfObject> getKkBoxPerfObjectsFromSQL(String uid) {
-        //
-        String SQL_member_song_target = "SELECT msno,song_id,target FROM train WHERE msno='"+uid+"'";
-        SqlRowSet rows = jdbcTemplate.queryForRowSet(SQL_member_song_target);
-        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = new ArrayList<KKBoxPerfObject>();
-        //
-        while (rows.next()) {
-            //
-            int colCount = rows.getMetaData().getColumnCount();
-            KKBoxPerfObject kkBoxPerfObject = new KKBoxPerfObject();
-            for (int i = 1; i <= colCount; i++) {
-                kkBoxPerfObject.setMsno(rows.getString("msno"));
-                kkBoxPerfObject.setSong_id(rows.getString("song_id"));
-                kkBoxPerfObject.setTarget(rows.getInt("target"));
-            }
-            kkBoxPerfObjectArrayList.add(kkBoxPerfObject);
-        }
-        return kkBoxPerfObjectArrayList;
-    }
 
     @Override
     public List<RecommendedItem> getUsersWithLikehoodAndRecommendation(String uid) throws IOException, TasteException {
 
-        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = getKkBoxPerfObjectsFromSQL(uid);
+        List<KKBoxPerfObject> kkBoxPerfObjectArrayList = recommendService.getKkBoxPerfObjectsFromSQL("msno",uid);
         //
-        return recommendService.userCF(this.getDataModel(kkBoxPerfObjectArrayList));
+        return recommendService.userCF(recommendService.getDataModel(kkBoxPerfObjectArrayList));
     }
 
-    private DataModel getDataModel(List<KKBoxPerfObject> kkBoxPerfObjectList) throws IOException {
-
-        File dataFile = KKBoxUtils.getCurrentMahoutUserBehaviorFile(kkBoxPerfObjectList);
-        //
-        DataModel dataModel  = new FileDataModel(dataFile);
-        return dataModel;
-    }
 
 }
