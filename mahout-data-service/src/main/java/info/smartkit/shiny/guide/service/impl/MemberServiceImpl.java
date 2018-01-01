@@ -1,5 +1,8 @@
 package info.smartkit.shiny.guide.service.impl;
 
+import com.mahout.rnd.customFileModel.PaxcomFileDataModel;
+import com.mahout.rnd.customFileModel.retrieveDataFromIndex;
+import info.smartkit.shiny.guide.DataServiceApplication;
 import info.smartkit.shiny.guide.domain.dao.MemberDao;
 import info.smartkit.shiny.guide.domain.dao.SongDao;
 import info.smartkit.shiny.guide.domain.dao.SongExtraInfoDao;
@@ -10,10 +13,23 @@ import info.smartkit.shiny.guide.domain.vo.Member;
 import info.smartkit.shiny.guide.domain.vo.Song;
 import info.smartkit.shiny.guide.service.MemberService;
 import info.smartkit.shiny.guide.service.RecommendService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.TanimotoCoefficientSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
+import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
+import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -27,6 +43,8 @@ import java.util.List;
 @Service
 public class MemberServiceImpl implements MemberService {
 
+
+    private static Logger LOG = LogManager.getLogger(MemberServiceImpl.class);
 
     @Autowired
     MemberDao memberDao;
@@ -105,7 +123,22 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<RecommendedItem> getUsersWithLikehood(String uid) throws IOException, TasteException {
         List<KKBoxPerfObject> kkBoxPerfObjectArrayList = recommendService.getKkBoxPerfObjectsFromSQL("msno",uid);
-        return recommendService.userCF(recommendService.getDataModel(kkBoxPerfObjectArrayList));
+
+        File file = new File(KKBoxUtils.CSV_BEAN_FILE);
+        DataModel dataModel  = new PaxcomFileDataModel(file);
+
+        UserSimilarity similarity = new PearsonCorrelationSimilarity(dataModel);
+        UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, dataModel);
+        UserBasedRecommender recommender = new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
+
+        List<RecommendedItem> recommendations = recommender.recommend(Long.parseLong(uid), 3);
+        for (RecommendedItem recommendation : recommendations) {
+            LOG.info(recommendation);
+        }
+
+        return recommendations;
+//        return recommendService.userCF(recommendService.getDataModel(kkBoxPerfObjectArrayList));
+
     }
 
 

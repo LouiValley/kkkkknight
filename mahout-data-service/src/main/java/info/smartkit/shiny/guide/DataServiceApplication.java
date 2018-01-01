@@ -27,6 +27,8 @@ public class DataServiceApplication {
 
 	private static Logger LOG = LogManager.getLogger(DataServiceApplication.class);
 
+    private static String DATASET_ENV = "/KKBox-100000";
+
 
 	public static void main(String[] args) throws Throwable {
 
@@ -40,14 +42,14 @@ public class DataServiceApplication {
                            TrainDao trainDao
                            ) {
         return (evt) -> Arrays.asList(
-                "KKBOX".split(","))
+                DATASET_ENV.split(","))
                 .forEach(
                         a -> {
 
 							Class mainClass = DataServiceApplication.class.getClass();
 							//////////////Member////////////////////////////
 							//1.initial CSV reader and mapper.
-							URL url_members = mainClass.getResource("/KKBOX/members.xlsx");
+							URL url_members = mainClass.getResource(DATASET_ENV+"/members.xlsx");
 							File excelFile_member = new File(url_members.getPath());
 							List<Member> excelFile_members= null;
 							try {
@@ -67,7 +69,7 @@ public class DataServiceApplication {
 
                             //////////////Song////////////////////////////
                             //1.initial CSV reader and mapper.
-                            URL url_songs = mainClass.getResource("/KKBOX/songs.xlsx");
+                            URL url_songs = mainClass.getResource(DATASET_ENV+"/songs.xlsx");
                             File excelFile_song = new File(url_songs.getPath());
                             List<Song> excelFile_songs = null;
                             try {
@@ -87,7 +89,7 @@ public class DataServiceApplication {
 
                             //////////////Song////////////////////////////
                             //1.initial CSV reader and mapper.
-                            URL url_song_extra_info = mainClass.getResource("/KKBOX/song_extra_info.xlsx");
+                            URL url_song_extra_info = mainClass.getResource(DATASET_ENV+"/song_extra_info.xlsx");
                             File excelFile_song_extra_info = new File(url_song_extra_info.getPath());
                             List<SongExtraInfo> excelFile_song_extra_infos = null;
                             try {
@@ -107,7 +109,7 @@ public class DataServiceApplication {
 
                             //////////////Train////////////////////////////
                             //1.initial CSV reader and mapper.
-                            URL url_train = mainClass.getResource("/KKBOX/train.xlsx");
+                            URL url_train = mainClass.getResource(DATASET_ENV+"/train.xlsx");
                             File excelFile_train = new File(url_train.getPath());
                             List<Train> excelFile_trains = null;
                             try {
